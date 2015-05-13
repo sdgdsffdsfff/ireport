@@ -32,4 +32,23 @@ public class ManagerController {
       return ret;
     }
 
+  @RequestMapping(value = "/deleteMainClassify", method = RequestMethod.GET)
+  public String deleteMainClassify(@RequestParam(value="id", required = true) int id ){
+    System.out.println("delete a record classify");
+    System.out.println("id:"+id);
+    String ret = oracleDao.update("delete from classify where id = ?", new Object[] {id});
+    System.out.println(ret);
+    return ret;
+  }
+  
+  @RequestMapping(value = "/modifyMainClassify", method = RequestMethod.GET) 
+  public String modifyMainClassify(@RequestParam(value="name", required = true) String name,@RequestParam(value="info", required = false) String info,@RequestParam(value="id", required = false) int id ){
+    System.out.println("modify a record classify");
+    System.out.println("id:"+id+",name:"+name+",info:"+info);
+    String ret = oracleDao.update("update classify set name = ? ,info = ? where id = ?", new Object[] {name, info, id});
+    System.out.println(ret);
+    return ret;
+  }
+
+
 }

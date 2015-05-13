@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script src="js/jquery/jquery-1.9.0.min.js"></script>
+<!-- <msdropdown> -->
+<link rel="stylesheet" type="text/css" href="css/msdropdown/dd.css" />
+<script src="js/msdropdown/jquery.dd.js"></script>
+<!-- </msdropdown> -->
+</head>
+<body>
+<div id="byjson"></div>
+<script>
+
+$(document).ready(function(e) {	
+function createByJson() {
+	var jsonData = [					
+					{description:'Choos your payment gateway', value:'', text:'Payment Gateway'},					
+					{image:'images/msdropdown/icons/Amex-56.png', description:'My life. My card...', value:'amex', text:'Amex'},
+					{image:'images/msdropdown/icons/Discover-56.png', description:'It pays to Discover...', value:'Discover', text:'Discover'},
+					{image:'images/msdropdown/icons/Mastercard-56.png', title:'For everything else...', description:'For everything else...', value:'Mastercard', text:'Mastercard'},
+					{image:'images/msdropdown/icons/Cash-56.png', description:'Sorry not available...', value:'cash', text:'Cash on devlivery', disabled:true},
+					{image:'images/msdropdown/icons/Visa-56.png', description:'All you need...', value:'Visa', text:'Visa'},
+					{image:'images/msdropdown/icons/Paypal-56.png', description:'Pay and get paid...', value:'Paypal', text:'Paypal'}
+					];
+	$("#byjson").msDropDown({byJson:{data:jsonData, name:'payments2'}}).data("dd");
+  	
+}	
+createByJson();
+
+});
+
+</script>
+
+</body>
+</html>

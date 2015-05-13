@@ -22,7 +22,7 @@ public class OracleDao // extends JdbcDaoSupport
   protected JdbcTemplate jdbcOracle;
 
   public String query(String sql) {
-    System.out.println("OK....");
+    System.out.println("select sql:"+sql);
     List rows = jdbcOracle.queryForList(sql);
     System.out.println(rows);
     return JSON.toJSONString(rows);

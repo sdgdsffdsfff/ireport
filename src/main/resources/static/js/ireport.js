@@ -9,32 +9,49 @@ $(document).ready(function() {
 */
   //初始化一级菜单的报表分类
   function load_classify(flag) {
+
     //一级分类的所有项
     var url = "/query?sql=select id as ID,name as NAME,info as INFO from classify";
     var opts_list = ajaxRequest(url);
     //alert(opts_list);
-
     //遍历opts_list，获取所有的一级菜单对象
-    var obj = eval(opts_list);
-    var opts = ""; //定义option拼接的字符串
-    for (var i = 0; i < obj.length; i++) {
-      opts += "<option value='"+obj[i].ID+"'>"+obj[i].NAME+"</option>";
+    var opts_json = eval(opts_list);
+    var opts_data = []; //存储data,用于存放下拉列表中，格式：var data = [{ id: 0, text: 'enhancement' }]
+    for (var i = 0; i < opts_json.length; i++) {
+      var ar = {};
+      ar['id'] = opts_json[i].ID;
+      ar['text'] = opts_json[i].NAME;
+      opts_data.push(ar);
     }
-    if(flag == "nav"){
-      //管理的group选项，有对一级菜单的增删改查
-      var group_manager = "<optgroup label='管理' data-subtext='分类'><option value='add_classify'>添加</option><option value='delete_classify'>删除</option><option value='modify_classify'>修改</option></optgroup>";
-      $("#classify_filter").html(opts + group_manager);
-    }
-    else if(flag == "del"){
-      $("#delete_classify_filter").html(opts);
-    }
-    
 
+    if (flag == "nav") {
+      //渲染一级分类的列表
+      $("#classify_filter").empty();
+      $("#classify_filter").select2({
+        placeholder: "请选择分类",
+        data: opts_data,
+        allowClear: true
+      });
+    } else if (flag == "del") {
+      $("#delete_classify_filter").empty();
+      $("#delete_classify_filter").select2({
+        placeholder: "请选择分类",
+        data: opts_data,
+        allowClear: true
+      });
+    } else if (flag = "modify") {
+      $("#modify_classify_filter").empty();
+      $("#modify_classify_filter").select2({
+        placeholder: "请选择分类",
+        data: opts_data,
+        allowClear: true
+      });
+    }
+    // $('.selectpicker').selectpicker('refresh');
   }
-  
   // 开始load一级菜单
   load_classify("nav");
-
+  //load_classify("del");
   //一级分类的change事件
   $('#classify_filter').on("change click",
   function() {
@@ -64,7 +81,27 @@ $(document).ready(function() {
     $(".classify_msg").html(""); //提示栏信息清空
   });
 
-  //添加一级菜单
+  //////////////////////////////一级菜单的增删改查
+  //触发添加一级菜单按钮
+  $("#link_add_classify").bind("click",
+  function() {
+    $('#modal_add_classify').modal('toggle');
+  });
+  //触发删除一级菜单按钮
+  $("#link_delete_classify").bind("click",
+  function() {
+    load_classify("del");
+    load_classify("nav");
+    $('#modal_delete_classify').modal('toggle');
+  });
+  //触发修改一级菜单按钮
+  $("#link_modify_classify").bind("click",
+  function() {
+    load_classify("modify");
+    modify_classify_filter_change();
+    $('#modal_modify_classify').modal('toggle');
+  });
+  //添加一级菜单(提交)
   $("#btn_add_classify").bind("click",
   function() {
     var add_classify_name = $("#add_classify_name").val();
@@ -73,33 +110,73 @@ $(document).ready(function() {
     var ret = ajaxRequest(url);
     if (ret == -1) {
       $(".classify_msg").html("<div class='alert alert-danger' role='alert'>添加失败，此条数据已存在！</div>");
+    } else if (ret == -2) {
+      $(".classify_msg").html("<div class='alert alert-danger' role='alert'>删除失败，请联系管理员！</div>");
     } else {
       $(".classify_msg").html("<div class='alert alert-success' role='alert'>添加成功！</div>");
       $("#add_classify_name").val("");
       $("#add_classify_info").val("");
+      load_classify("nav");
     }
   });
 
   //删除一级菜单
   $("#btn_delete_classify").bind("click",
   function() {
-    var add_classify_name = $("#add_classify_name").val();
-    var add_classify_info = $("#add_classify_info").val();
-    var url = "/addMainClassify?name=" + add_classify_name + "&info=" + add_classify_info;
+    var select_value = $("#delete_classify_filter").val();
+    var url = "/deleteMainClassify?id=" + select_value;
     var ret = ajaxRequest(url);
+    //alert(ret);
     if (ret == -1) {
-      $(".classify_msg").html("<div class='alert alert-danger' role='alert'>添加失败，此条数据已存在！</div>");
+      $(".classify_msg").html("<div class='alert alert-danger' role='alert'>删除失败，请稍后再试！</div>");
+    } else if (ret == -2) {
+      $(".classify_msg").html("<div class='alert alert-danger' role='alert'>删除失败，请联系管理员！</div>");
     } else {
-      $(".classify_msg").html("<div class='alert alert-success' role='alert'>添加成功！</div>");
-      $("#add_classify_name").val("");
-      $("#add_classify_info").val("");
+      $(".classify_msg").html("<div class='alert alert-success' role='alert'>删除成功！</div>");
+      load_classify("del");
     }
   });
 
   //修改一级菜单
-  function modify_classify() {
+  $('#modify_classify_filter').on("change",
+  function() {
+    modify_classify_filter_change();
+  });
+  //单独封装一个动态变化的函数，因为打开对话框，需要初始化这个函数
+  function modify_classify_filter_change() {
+    var select_value = $("#modify_classify_filter").val();
+    //select name,info from classify where id = 
+    var url = "/query?sql=select name,info from classify where id = " + select_value;
+    var opts = ajaxRequest(url);
 
-}
+    //遍历opts_list，获取所有的一级菜单对象
+    var opts_json = eval(opts);
+    if (opts_json.length > 0) {
+      $("#modify_classify_name").val(opts_json[0].NAME);
+      $("#modify_classify_info").val(opts_json[0].INFO);
+    }
+    //alert(opts_json[0].NAME+opts_json[0].INFO);
+  }
+
+  //确定修改一级菜单
+  $("#btn_modify_classify").bind("click",
+  function() {
+    var id = $("#modify_classify_filter").val();
+    var name = $("#modify_classify_name").val();
+    var info = $("#modify_classify_info").val();
+    var url = "/modifyMainClassify?name=" + name + "&info=" + info + "&id=" + id;
+    //alert(url);
+    //console.log(url);
+    var ret = ajaxRequest(url);
+    //alert(ret);
+    if (ret == -1) {
+      $(".classify_msg").html("<div class='alert alert-danger' role='alert'>修改失败，请稍后再试！</div>");
+    } else if (ret == -2) {
+      $(".classify_msg").html("<div class='alert alert-danger' role='alert'>删除失败，请联系管理员！</div>");
+    } else {
+      $(".classify_msg").html("<div class='alert alert-success' role='alert'>修改成功！</div>");
+    }
+  });
 
   //向后台请求get类型的request，需要自己拼装URL,返回json data数据
   function ajaxRequest(url) {
@@ -114,13 +191,101 @@ $(document).ready(function() {
         ret = data;
       },
       error: function() {
-        ret = "服务器出现异常！";
+        ret = -2;
         alert("服务器出现异常！");
       }
     });
     return ret;
   }
 
+  //////////////////////////二级菜单的增删改查
+  //触发添加一级菜单按钮
+  $("#link_add_classify_children").bind("click",
+  function() {
+    $("#table_count").select2();
+    $('#modal_add_classify_children').modal('toggle');
+  });
+  //定义全局计数器
+  //定义一个计数器
+  
+  $("#add_table").bind("click",
+  function() {
+    //定义一个表
+    var counter = $("#table_count").val();
+    var html = "";
+    if(counter == 1){
+      //一个表
+      html += "<h4 id=h_1'><select class='tmp_table' id = 'table_1' style='width: 40%;'></select></h4>";
+    }else if(counter == 2){
+      html += "<h4 id=h_1'><select class='tmp_table' id = 'table_1' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_1' class='tmp_class' style='width: 40%;'></select></h4>";
+      html += "<h4 id=h_2'><select class='tmp_table' id = 'table_2' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_2' class='tmp_class' style='width: 40%;'></select></h4>";
+    }else{ //大于三个表，只要前一个表加上右练级字段即可
+    //判断需要是否需要添加 左 或 右 连接的字段 ，暂时不做这块了，我将要离职，希望你能完成
+    //逻辑对，也添加成功，但是添加后，select2不可用
+      //var table_html=$("#table_list").html();
+      //console.log(table_html);
+      //var table_html2= table_html.substring(0,table_html.length-5);
+      //console.log("=================");
+      //console.log(table_html2);
+      //$("#table_list").apend(table_html2+"右连接字段：<select id = 'column_lright_" + counter + "' class='tmp_class' style='width: 30%;'></select></h4>");
+      html += "<h4 id=h_1'><select class='tmp_table' id = 'table_1' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_1' class='tmp_class' style='width: 40%;'></select></h4>";
+      html += "<h4 id=h_2'><select class='tmp_table' id = 'table_2' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_2' class='tmp_class' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_2' class='tmp_class' style='width: 25%;'></select></h4></h4>";
+      for(var i=3;i<counter;i++){
+        html += "<h4 id=h_"+i+"'><select class='tmp_table' id = 'table_"+i+"' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_"+i+"' class='tmp_class' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_"+i+"' class='tmp_class' style='width: 25%;'></select></h4></h4>";
+      }
+      html += "<h4 id=h_"+counter+"'><select class='tmp_table' id = 'table_"+counter+"' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_" + counter + "' class='tmp_class' style='width: 40%;'></select></h4>";
+    }
+    
+    
+    
+    $("#table_list").html(html);
+    //获取所有表
+    var url = "/query?sql=select table_name from user_tables order by table_name";
+    var table_list = ajaxRequest(url);
+    //将table_list转换为 table_json对象
+    var table_json = eval(table_list);
+    var table_data = []; //存储data,用于存放下拉列表中，格式：var data = [{ id: 0, text: 'enhancement' }]
+    for (var i = 0; i < table_json.length; i++) {
+      var ar = {};
+      ar['id'] = table_json[i].TABLE_NAME;
+      ar['text'] = table_json[i].TABLE_NAME;
+      table_data.push(ar);
+    }
+    for(var i=1;i<=counter;i++){
+      var id = '#table_'+i;
+    console.log(id); 
+    $(id).select2({
+      placeholder: "请选择表",
+      data: table_data,
+      allowClear: true
+    });
+    }
+    
+    $(".tmp_class").select2({});
+  });
+  
+  //表选择事件
+  $(document).on("change click",".tmp_table",function(){  
+     //获取所有表
+    var url = "/query?sql=select table_name from user_tables order by table_name";
+    var table_list = ajaxRequest(url);
+    //将table_list转换为 table_json对象
+    var table_json = eval(table_list);
+    var table_data = []; //存储data,用于存放下拉列表中，格式：var data = [{ id: 0, text: 'enhancement' }]
+    for (var i = 0; i < table_json.length; i++) {
+      var ar = {};
+      ar['id'] = table_json[i].TABLE_NAME;
+      ar['text'] = table_json[i].TABLE_NAME;
+      table_data.push(ar);
+    }
+
+    $(this).siblings(".tmp_class").select2({
+      placeholder: "请选择关联的字段",
+      data: table_data,
+      allowClear: true
+    });
+    
+  });
   //统计分析
   var sql = "";
   $("#analyze").bind("click",
