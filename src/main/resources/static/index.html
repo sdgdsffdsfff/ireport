@@ -199,7 +199,7 @@
         <option value="4">4</option>
         <option value="5">5</option>
     </select>
-      <button id="add_table" type="button" class="btn btn-primary" >添加表</button>&nbsp;&nbsp;<span class="label label-info">【提示：请先选择有表，然后选择表左或右相连接的字段，最后选择各个表的字段，若去除字段，请双击下面的字段值】</span>
+      <button id="add_table" type="button" class="btn btn-primary" >添加表</button>&nbsp;&nbsp;<button id="btn_analyze_sql" type="button" class="btn btn-primary">生成SQL</button> &nbsp;&nbsp;<span class="label label-info">【提示：请先选择有表，然后选择表左或右相连接的字段，最后选择各个表的字段，若去除字段，请双击下面的字段值】</span>
       </h5>
       <!--用于列出所有的表，一级关联字段的下拉框-->
       <div id="table_list">
@@ -207,13 +207,12 @@
       
       <!--用于显示生成的SQL语句框-->
       <div id="sql_div" style="width:100%;">
-        <textarea id="sql_text" class="form-control ireport_msg" placeholder="未填" aria-describedby="basic-addon1" rows="3"></textarea> 
+        <textarea id="sql_text" class="form-control ireport_msg" placeholder="SQL语句" aria-describedby="basic-addon1" rows="8"></textarea> 
       </div>
       <!--用于显示生成的SQL语句框 end-->
      </div> 
      <div class="modal-footer"> 
       <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 
-      <button id="btn_analyze_sql" type="button" class="btn btn-primary">分析SQL</button> 
       <button id="btn_add_sql" type="button" class="btn btn-primary">添加</button> 
      </div> 
     </div> 

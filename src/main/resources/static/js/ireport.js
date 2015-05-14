@@ -345,9 +345,10 @@ $(document).ready(function() {
           var ar = {};
           ar['table_name'] = $(this).val();
           ar['left_jion_id'] = $(this).siblings(".tmp_left_join_class").val();
-          ar['right_jion_id'] = $(this).siblings(".tmp_right_join_class").val();
+          ar['right_jion_id'] = $(this).siblings(".tmp_right_jion_class").val();
           table_jion_list.push(ar);
         }else{ ////装载最后一个表：{table_name:student,jion_id:1}
+          var ar = {};
           ar['table_name'] = $(this).val();
           ar['jion_id'] = $(this).siblings(".tmp_jion_class").val();
           table_jion_list.push(ar);
@@ -355,15 +356,26 @@ $(document).ready(function() {
         flag +=1;
       });
     }
-    //console.log(table_jion_list);
+    console.log(table_jion_list);
     var sql="";
     if(counter == 1){ //一张表情况下的sql语句；
       sql = "SELECT * FROM "+table_jion_list[0].table_name;
     }else if(counter == 2){ //两张表情况下的SQL语句
       sql = "SELECT * FROM "+table_jion_list[0].table_name +" , "+table_jion_list[1].table_name + " WHERE "+table_jion_list[0].table_name+"."+table_jion_list[0].jion_id +" = "+table_jion_list[1].table_name+"."+table_jion_list[1].jion_id;
     }else{//多余3张表情况下的sql语句
-      
-      
+      sql = "SELECT * FROM ";
+      //遍历所有的表
+      for (var i = 0; i < table_jion_list.length; i++) {
+        sql +=table_jion_list[i].table_name + " ";
+      }
+      sql += " WHERE " + table_jion_list[0].table_name+"."+table_jion_list[0].jion_id +" = "
+      //遍历所有管理的字段
+      //遍历所有的表
+      for (var i = 1; i < table_jion_list.length -1; i++) {
+        sql +=table_jion_list[i].table_name+"."+table_jion_list[i].left_jion_id + " AND " + table_jion_list[i].table_name+"."+table_jion_list[i].right_jion_id + " = ";
+      }
+      //最后一个表的右连接
+      sql += table_jion_list[counter -1].table_name+"."+table_jion_list[counter - 1].jion_id;
     }
     
     //分析后的SQL展现在文本框内

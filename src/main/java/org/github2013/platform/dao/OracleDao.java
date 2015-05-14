@@ -35,6 +35,7 @@ public class OracleDao // extends JdbcDaoSupport
     try{
        ret = jdbcOracle.update(sql,args);
     }catch(Exception e){
+      System.out.println(e.printStackTrace());
       ret = -1;
       System.out.println("此条数据已在数据库中存在！");
     }
