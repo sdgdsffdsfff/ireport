@@ -166,7 +166,7 @@ $(document).ready(function() {
     var info = $("#modify_classify_info").val();
     var url = "/modifyMainClassify?name=" + name + "&info=" + info + "&id=" + id;
     //alert(url);
-    //console.log(url);
+    ////console.log(url);
     var ret = ajaxRequest(url);
     //alert(ret);
     if (ret == -1) {
@@ -215,25 +215,25 @@ $(document).ready(function() {
     var html = "";
     if(counter == 1){
       //一个表
-      html += "<h4 id=h_1'><select class='tmp_table' id = 'table_1' style='width: 40%;'></select></h4>";
+      html += "<h4 id=h_1'>&nbsp;&nbsp;<span class='label label-info'>查询字段:</span><select id = 'column_select_1' class='tmp_class' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>表名:</span><select class='tmp_table' id = 'table_1' style='width: 40%;'></select></h4>";
     }else if(counter == 2){
-      html += "<h4 id=h_1'><select class='tmp_table' id = 'table_1' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_1' class='tmp_class' style='width: 40%;'></select></h4>";
-      html += "<h4 id=h_2'><select class='tmp_table' id = 'table_2' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_2' class='tmp_class' style='width: 40%;'></select></h4>";
+      html += "<h4 id=h_1'>&nbsp;&nbsp;<span class='label label-info'>查询字段:</span><select id = 'column_select_1' class='tmp_class' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>表名:</span><select class='tmp_table' id = 'table_1' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_1' class='tmp_right_jion_class tmp_jion_class  tmp_class' style='width: 25%;'></select></h4>";
+      html += "<h4 id=h_2'>&nbsp;&nbsp;<span class='label label-info'>查询字段:</span><select id = 'column_select_2' class='tmp_class' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>表名:</span><select class='tmp_table' id = 'table_2' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_2' class='tmp_left_join_class tmp_jion_class   tmp_class' style='width: 25%;'></select></h4>";
     }else{ //大于三个表，只要前一个表加上右练级字段即可
     //判断需要是否需要添加 左 或 右 连接的字段 ，暂时不做这块了，我将要离职，希望你能完成
     //逻辑对，也添加成功，但是添加后，select2不可用
       //var table_html=$("#table_list").html();
-      //console.log(table_html);
+      ////console.log(table_html);
       //var table_html2= table_html.substring(0,table_html.length-5);
-      //console.log("=================");
-      //console.log(table_html2);
+      ////console.log("=================");
+      ////console.log(table_html2);
       //$("#table_list").apend(table_html2+"右连接字段：<select id = 'column_lright_" + counter + "' class='tmp_class' style='width: 30%;'></select></h4>");
-      html += "<h4 id=h_1'><select class='tmp_table' id = 'table_1' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_1' class='tmp_class' style='width: 40%;'></select></h4>";
-      html += "<h4 id=h_2'><select class='tmp_table' id = 'table_2' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_2' class='tmp_class' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_2' class='tmp_class' style='width: 25%;'></select></h4></h4>";
+      html += "<h4 id=h_1'>&nbsp;&nbsp;<span class='label label-info'>查询字段:</span><select id = 'column_select_1' class='tmp_class' style='width: 16%;'></select>&nbsp;&nbsp;<span class='label label-info'>表名:</span><select class='tmp_table' id = 'table_1' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_1' class='tmp_right_jion_class tmp_jion_class  tmp_class' style='width: 16%;'></select></h4>";
+      html += "<h4 id=h_2'>&nbsp;&nbsp;<span class='label label-info'>查询字段:</span><select id = 'column_select_2' class='tmp_class' style='width: 16%;'></select>&nbsp;&nbsp;<span class='label label-info'>表名:</span><select class='tmp_table' id = 'table_2' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_2' class='tmp_left_join_class tmp_jion_class  tmp_class' style='width: 16%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_2' class='tmp_right_jion_class tmp_jion_class  tmp_class' style='width: 16%;'></select></h4></h4>";
       for(var i=3;i<counter;i++){
-        html += "<h4 id=h_"+i+"'><select class='tmp_table' id = 'table_"+i+"' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_"+i+"' class='tmp_class' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_"+i+"' class='tmp_class' style='width: 25%;'></select></h4></h4>";
+        html += "<h4 id=h_"+i+"'>&nbsp;&nbsp;<span class='label label-info'>查询字段:</span><select id = 'column_select_"+i+"' class='tmp_class' style='width: 16%;'></select>&nbsp;&nbsp;<span class='label label-info'>表名:</span><select class='tmp_table' id = 'table_"+i+"' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_"+i+"' class='tmp_left_join_class tmp_jion_class  tmp_class' style='width: 16%;'></select>&nbsp;&nbsp;<span class='label label-info'>右连接字段:</span><select id = 'column_right_"+i+"' class='tmp_right_jion_class tmp_jion_class  tmp_class' style='width: 16%;'></select></h4></h4>";
       }
-      html += "<h4 id=h_"+counter+"'><select class='tmp_table' id = 'table_"+counter+"' style='width: 30%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_" + counter + "' class='tmp_class' style='width: 40%;'></select></h4>";
+      html += "<h4 id=h_"+counter+"'>&nbsp;&nbsp;<span class='label label-info'>查询字段:</span><select id = 'column_select_"+counter+"' class='tmp_class' style='width: 16%;'></select>&nbsp;&nbsp;<span class='label label-info'>表名:</span><select class='tmp_table' id = 'table_"+counter+"' style='width: 25%;'></select>&nbsp;&nbsp;<span class='label label-info'>左连接字段:</span><select id = 'column_left_" + counter + "' class='tmp_left_join_class tmp_jion_class  tmp_class' style='width: 16%;'></select></h4>";
     }
     
     
@@ -253,7 +253,7 @@ $(document).ready(function() {
     }
     for(var i=1;i<=counter;i++){
       var id = '#table_'+i;
-    console.log(id); 
+    //console.log(id); 
     $(id).select2({
       placeholder: "请选择表",
       data: table_data,
@@ -267,24 +267,135 @@ $(document).ready(function() {
   //表选择事件
   $(document).on("change click",".tmp_table",function(){  
      //获取所有表
-    var url = "/query?sql=select table_name from user_tables order by table_name";
-    var table_list = ajaxRequest(url);
+    var table_name = $(this).val();
+    //查询 某个表的字段名和注释，无注释用字段名
+    //select tcl.COLUMN_NAME as column_name,tcc.comments,nvl(tcc.comments,tcl.COLUMN_NAME) as column_comment from user_tab_columns tcl ,user_col_comments tcc where tcl.TABLE_NAME = tcc.table_name and tcl.COLUMN_NAME = tcc.column_name and tcl.table_name='ASSETPROJECT'
+    var url = "/query?sql=select tcl.COLUMN_NAME as column_name,tcc.comments,nvl(tcc.comments,tcl.COLUMN_NAME) as column_comment from user_tab_columns tcl ,user_col_comments tcc where tcl.TABLE_NAME = tcc.table_name and tcl.COLUMN_NAME = tcc.column_name and tcl.table_name='"+table_name +"' order by column_name";
+    
+    ////console.log(url);
+    var column_list = ajaxRequest(url);
     //将table_list转换为 table_json对象
-    var table_json = eval(table_list);
-    var table_data = []; //存储data,用于存放下拉列表中，格式：var data = [{ id: 0, text: 'enhancement' }]
-    for (var i = 0; i < table_json.length; i++) {
+    var column_json = eval(column_list);
+    var column_data = []; //存储data,用于存放下拉列表中，格式：var data = [{ id: 0, text: 'enhancement' }]
+    for (var i = 0; i < column_json.length; i++) {
       var ar = {};
-      ar['id'] = table_json[i].TABLE_NAME;
-      ar['text'] = table_json[i].TABLE_NAME;
-      table_data.push(ar);
+      ar['id'] = column_json[i].COLUMN_NAME;
+      ar['text'] = column_json[i].COLUMN_COMMENT;
+      column_data.push(ar);
     }
-
+    
+    //console.log(column_data);
+    $(this).siblings(".tmp_class").empty();
     $(this).siblings(".tmp_class").select2({
       placeholder: "请选择关联的字段",
-      data: table_data,
+      data: column_data,
       allowClear: true
     });
+  });
+  
+  //去除警告信息
+  $(document).on("change click",".tmp_class",function(){
+    $(".classify_msg").html("");
+  });
+  //分析生成SQL
+  $(document).on("click","#btn_analyze_sql",function(){
+    $(".classify_msg").html("");
+    //遍历每个tmp_class，选择的字段
+    var flag = true;
+    $(".tmp_jion_class").each(function(){
+      if(null == $(this).val()){
+        $(".classify_msg").html("<div class='alert alert-danger' role='alert'>请选择左右连接的的字段！！</div>");
+        flag = false; 
+      }
+    });
+    //若字段为空，则返回。
+    if(flag == false){
+      return false;
+    }
     
+    //表list，用于装载表名字，表左或右的连接字段ID
+    var table_jion_list = []
+    //判断表个数
+    var counter = $("#table_count").val();
+    if(counter ==1)//如果是一个表，则只装载，table_name一个字段，其值为表名字。[{table_name:student}]
+    {
+      $(".tmp_table").each(function(){
+        var ar = {};
+        ar['table_name'] = $(this).val();
+        table_jion_list.push(ar);
+      });
+    }else if(counter ==2 )//如果是2个表，则装载两个字段：[{table_name:student,jion_id:1},{table_name:score,jion_id:3}]
+    {
+      $(".tmp_table").each(function(){
+        var ar = {};
+        ar['table_name'] = $(this).val();
+        ar['jion_id'] = $(this).siblings(".tmp_jion_class").val();
+        table_jion_list.push(ar);
+       
+      });
+    }else{//如果是3个以上的表，数据例子：[{table_name:student,jion_id:1},{table_name:student,left_jion_id:1,right_jion_id:1},....,{table_name:student,jion_id:1}]
+      var flag =1;
+      $(".tmp_table").each(function(){
+        if(flag == 1){//装载第一个表：{table_name:student,jion_id:1}
+          var ar = {};
+          ar['table_name'] = $(this).val();
+          ar['jion_id'] = $(this).siblings(".tmp_jion_class").val();
+          table_jion_list.push(ar);
+        }else if(flag < counter){ //装载第2至倒数第二个表，{table_name:student,left_jion_id:1,right_jion_id:1}
+          var ar = {};
+          ar['table_name'] = $(this).val();
+          ar['left_jion_id'] = $(this).siblings(".tmp_left_join_class").val();
+          ar['right_jion_id'] = $(this).siblings(".tmp_right_join_class").val();
+          table_jion_list.push(ar);
+        }else{ ////装载最后一个表：{table_name:student,jion_id:1}
+          ar['table_name'] = $(this).val();
+          ar['jion_id'] = $(this).siblings(".tmp_jion_class").val();
+          table_jion_list.push(ar);
+        }
+        flag +=1;
+      });
+    }
+    //console.log(table_jion_list);
+    var sql="";
+    if(counter == 1){ //一张表情况下的sql语句；
+      sql = "SELECT * FROM "+table_jion_list[0].table_name;
+    }else if(counter == 2){ //两张表情况下的SQL语句
+      sql = "SELECT * FROM "+table_jion_list[0].table_name +" , "+table_jion_list[1].table_name + " WHERE "+table_jion_list[0].table_name+"."+table_jion_list[0].jion_id +" = "+table_jion_list[1].table_name+"."+table_jion_list[1].jion_id;
+    }else{//多余3张表情况下的sql语句
+      
+      
+    }
+    
+    //分析后的SQL展现在文本框内
+    console.log(sql);
+    $("#sql_text").text(sql);
+    /*
+    for (var i = 0; i < table_jion_list.length-1; i++) {
+      if (i == 0){
+        console.log("table_name:"+table_jion_list[i].table_name+",jion_id:"+table_jion_list[i].jion_id);
+      }
+      else(if)
+       
+    }
+    */
+    /*
+    //遍历所有表，无需判断是否为空，子都不为空，则表不可能为空
+    var jion_data = []; //存储data,var data = [{ table_name: 0, left_jion_column: 'ID',right_jion_column:'ID2' }]
+    $(".tmp_jion_class").each(function(){
+      if(null == $(this).val()){
+        $(".classify_msg").html("<div class='alert alert-danger' role='alert'>请选择左右连接的的字段！！</div>");
+        flag = false; 
+      }
+    });
+    var jion_data = []; //存储data,用于存放下拉列表中，格式：var data = [{ id: 0, text: 'enhancement' }]
+    for (var i = 0; i < opts_json.length; i++) {
+      var ar = {};
+      ar['id'] = opts_json[i].ID;
+      ar['text'] = opts_json[i].NAME;
+      opts_data.push(ar);
+    }
+    */
+  
   });
   //统计分析
   var sql = "";
