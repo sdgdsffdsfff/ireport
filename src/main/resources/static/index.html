@@ -57,7 +57,7 @@
   <div class="container-fluid" style="margin-top:50px;"> 
    <div class="row"> 
     <!-- 左侧nav --> 
-    <div class="col-md-2" style="width:21%; border-right:solid 1px red; height:800px;"> 
+    <div class="col-md-2" style="width:21%; border-right:solid 1px rgb(134, 174, 203);; height:800px;"> 
      <div style="margin-top:30px;"> 
       <!-- 一级分类管理 --> 
       <div class="btn-group"> 
@@ -79,22 +79,25 @@
        </ul> 
       </div> 
       <!-- 二级分类管理 end--> 
-      <li class="divider"></li> 
-      <h4> <select id="classify_filter" class="populate" style="width: 100%; display: none; margin-top:20px;height:800px"> </select> </h4> 
+      <h4> <select id="classify_filter" class="populate" style="width: 100%; display: none; margin-top:20px;height:800px"> </select> </h4>
+      <div id="report_list" class="container-fluid">
+      
+      </div>
      </div> 
     </div> 
     <!-- 左侧nav end --> 
     <div class="col-md-10" style="width:79%"> 
-     <h1> <input id="sql" type="text" class="input-lg col-md-offset-1" style="width:70%" placeholder="请输入sql语句" value="SELECT CODE,NAME,TABLE_ID,DATA_TYPE_ID from MM_FIELD WHERE ID&gt;2270" /> <button id="analyze" type="button" class="btn btn-lg btn-info">统计分析</button> </h1> 
      <div id="dataTable"> 
       <table id="table-javascript" data-height="299" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1"> 
       </table> 
      </div> 
+     <!--
      <div id="canvasDiv"> 
       <canvas tyle="width: 800px; height: 400px;" width="800" height="400"> 
        <p>Your browser does not support the canvas element</p> 
       </canvas> 
      </div> 
+     -->
     </div> 
    </div> 
   </div> 
@@ -177,11 +180,11 @@
     </div> 
    </div> 
   </div> 
-  <!-- 修改一级报表菜单 end --> 
+  <!-- 修改一级报表菜单 end -->
   <!-- 二级菜单的报表的增删改查 --> 
   <!-- 修改一级报表菜单 --> 
   <div class="modal fade" id="modal_add_classify_children" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
-   <div class="modal-dialog modal-lg" style="width:98%"> 
+   <div class="modal-dialog modal-lg" style="width:99%"> 
     <div class="modal-content"> 
      <div class="modal-header"> 
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
@@ -189,31 +192,67 @@
      </div> 
      <div class="modal-body"> 
       <div class="classify_msg"></div> 
-      <h5>
+      <h4>
       <!--设置默认表个数-->
-      <span class="label label-info">表个数:</span>
+      <span class="label label-info lable-report">表个数:</span>
       <select id="table_count">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
+        <option value="1">1个</option>
+        <option value="2">2个</option>
+        <option value="3">3个</option>
+        <option value="4">4个</option>
+        <option value="5">5个</option>
     </select>
-      <button id="add_table" type="button" class="btn btn-primary" >添加表</button>&nbsp;&nbsp;<button id="btn_analyze_sql" type="button" class="btn btn-primary">生成SQL</button> &nbsp;&nbsp;<span class="label label-info">【提示：请先选择有表，然后选择表左或右相连接的字段，最后选择各个表的字段，若去除字段，请双击下面的字段值】</span>
-      </h5>
+    <!--
+      <button id="add_table" type="button" class="btn btn-primary" >添加表</button>
+      -->
+     
+      &nbsp;&nbsp;
+      <div class="btn-group">
+        <button type="button" class="btn btn-success select_btn">选择</button>
+        <button type="button" class="btn btn-info select_btn">过滤</button>
+        <button type="button" class="btn btn-info select_btn">分组</button>
+        <button type="button" class="btn btn-info select_btn">排序</button>
+      </div>
+      &nbsp;&nbsp;
+      <button id="btn_analyze_sql" type="button" class="btn btn-primary">生成SQL</button>
+      &nbsp;&nbsp;
+      <button id="btn_verify_sql" type="button" class="btn btn-primary">验证SQL</button> 
+       &nbsp;&nbsp;           
+      <span class="label label-info lable-report">报表类型:</span>&nbsp;<select id="report_type" style="display: none;width:250px;"></select>
+      <!-- 选择，分组，排序选择按钮 -->
+      &nbsp;&nbsp;
+      <span class="span-report">名称</span>
+      <input id="report_name" type="text" class=" ireport_msg" placeholder="不能为空" aria-describedby="basic-addon1" /> 
+      <button id="btn_add_sql" type="button" class="btn btn-primary">添加报表</button> 
+      </h4>
       <!--用于列出所有的表，一级关联字段的下拉框-->
-      <div id="table_list">
+      <div id="table_list" class="container-fluid fill_items">
       </div> <!--用于列出所有的表，一级关联字段的下拉框 end-->
       
+      <!--列出选择的字段-->
+      <h4>&nbsp;&nbsp;<span class="label label-info">选择字段:</span></h4>
+      <div id="selected_columns_div" class="container-fluid fill_items">
+      </div><!--列出选择的字段 end---->
+      
+      <!--列出过滤的字段-->
+      <h4>&nbsp;&nbsp;<span class="label label-info">过滤字段:</span></h4>
+      <div id="where_columns_div" class="container-fluid fill_items">
+      </div><!--列出过滤的字段 end---->
+      
+       <!--列出排序的字段-->
+      <h4>&nbsp;&nbsp;<span class="label label-info">排序字段:</span></h4>
+      <div id="orderby_columns_div" class="container-fluid fill_items">
+      </div><!--列出排序的字段 end---->
+      
       <!--用于显示生成的SQL语句框-->
-      <div id="sql_div" style="width:100%;">
+      <div id="sql_div" style="width:100%; margin-top:10px;">
         <textarea id="sql_text" class="form-control ireport_msg" placeholder="SQL语句" aria-describedby="basic-addon1" rows="8"></textarea> 
       </div>
       <!--用于显示生成的SQL语句框 end-->
      </div> 
      <div class="modal-footer"> 
       <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> 
-      <button id="btn_add_sql" type="button" class="btn btn-primary">添加</button> 
+      
      </div> 
     </div> 
    </div> 
