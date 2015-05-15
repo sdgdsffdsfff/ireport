@@ -473,8 +473,9 @@ $(document).ready(function() {
             sql = select_columns;
             //遍历所有的表
             for (var i = 0; i < table_jion_list.length; i++) {
-                sql += table_jion_list[i].table_name + " ";
+                sql += table_jion_list[i].table_name + ",";
             }
+            sql = sql.substring(0,sql.length-1);
             sql += " WHERE " + table_jion_list[0].table_name + "." + table_jion_list[0].jion_id + " = "
             //遍历所有管理的字段
             //遍历所有的表
