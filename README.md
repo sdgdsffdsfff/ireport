@@ -7,4 +7,13 @@
    
 架构模式：  
 前端：bootstrap+select2+ichart+jquery+html5;  
-后台：spring4 boot+spring jdbc  
+后台：spring4 boot+spring jdbc
+
+开发说明：
+1、首先配置连接oracle数据库，配置文件在：ireport/src/main/resources/application.properties下，进行数据库连接并把create_table.sql在数据库中执行，以便存储数据；   
+
+2、编译后的包，可以通过maven编译：
+[root@drunk ireport]# mvn clean package   
+启动服务：java -jar target/ireport-1.0-SNAPSHOT.jar --server.port=9000   
+
+

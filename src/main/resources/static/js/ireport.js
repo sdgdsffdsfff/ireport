@@ -685,6 +685,10 @@ $(document).ready(function() {
                 'valign': 'middle',
                 'sortable': true
             };
+            //去除comment前面的英文字段名
+            if(value.indexOf('AS"')>0){
+              value = value.split('AS"')[1].replace(/\"+/g, "");
+            }
             ar['field'] = value;
             ar['title'] = value;
             items.push(ar);
