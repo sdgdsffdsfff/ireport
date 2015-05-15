@@ -530,9 +530,9 @@ $(document).ready(function() {
       if("" == sql){
         $(".classify_msg").html("<div class='alert alert-warning' role='alert'>尚未生成SQL语句！！！</div>");
       }else if(sql.indexOf(" WHERE ")>0){
-        sql = sql.replace(" WHERE ","WHERE 1=0 AND ");
+        sql = sql.replace(" WHERE "," WHERE 1=0 AND ");
       }else if(sql.indexOf(" ORDER BY ")>0){
-        sql = sql.replace(" ORDER BY ","WHERE 1=0 ORDER BY ");
+        sql = sql.replace(" ORDER BY "," WHERE 1=0 ORDER BY ");
       }else{
         sql = sql + " WHERE 1=0";
       }
