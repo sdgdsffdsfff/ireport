@@ -377,10 +377,10 @@ $(document).ready(function() {
         var columns = "";
         $(".where_column").each(function() {
             var id = $(this).attr("id");
-            columns += id + "=?,";
+            columns += id + "=? ADN ";
         });
-        if (columns != "") { //若未选择字段，则默认选择所有字段
-          columns = " WHERE " +columns.substring(0,columns.length-1);
+        if (columns != "") { //去除" AND"
+          columns = " WHERE " +columns.substring(0,columns.length-4);
         }
         return columns;
     }
